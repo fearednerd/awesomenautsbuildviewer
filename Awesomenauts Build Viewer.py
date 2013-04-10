@@ -5,6 +5,20 @@ import sys
 from PySide import QtGui
 from PySide import QtCore
 
+mainWindow = 0
+
+class CharWindow(QtGui.QWidget):
+    global mainWindow
+    def __init__(self):
+        super(CharWindow, self).__init__()
+        
+        self.initUI()
+        
+    def initUI(self):
+        self.resize(250, 150)
+    def setupChar(self, charname):
+        print "window setup for %s" ,charname
+    
 class CharButtons(QtGui.QWidget):
     def __init__(self):
         super(CharButtons, self).__init__()
@@ -116,7 +130,12 @@ class CharButtons(QtGui.QWidget):
         
     def buttonClicked(self):
         sender = self.sender()
-        print sender.objectName()
+        if sender.objectName() == "clunkbtn":
+            charwindow = CharWindow()
+            charwindow.setupChar("Clunk")
+            mainWindow.setCentralWidget(charwindow)
+            print sender.objectName()
+            
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -145,6 +164,7 @@ class MainWindow(QtGui.QMainWindow):
     
     
 def main():
+    global mainWindow
     app = QtGui.QApplication(sys.argv)
     mainWindow = MainWindow()
     sys.exit(app.exec_())
