@@ -6,7 +6,7 @@ from PySide import QtGui
 from PySide import QtCore
 
 mainWindow = 0
-
+#test comment
 class CharWindow(QtGui.QWidget):
     global mainWindow
     def __init__(self):
