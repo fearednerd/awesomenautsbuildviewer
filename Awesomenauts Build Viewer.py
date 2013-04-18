@@ -1,14 +1,29 @@
 #!/usr/bin/env python
 #Paul Yi
+#I know that here are multiple levels of certain upgrades
+#This build viewer makes the assumption of maxing out a skill when selected
+
 
 import sys
 from PySide import QtGui
 from PySide import QtCore
 
+
+
 mainWindow = 0
 #test comment
 class CharWindow(QtGui.QWidget):
     global mainWindow
+    hp = 0
+    attack = 0
+    atkspeed = 0
+    startsolar = 0#remember to incorporate skill1 and skill2 costs
+    solarpermin = 0
+    solarneeded = 0
+    movespeed = 0
+    skill1dmg = 0
+    skill2dmg = 0
+    
     def __init__(self):
         super(CharWindow, self).__init__()
         
@@ -23,8 +38,19 @@ class CharWindow(QtGui.QWidget):
         skillGrid = QtGui.QGridLayout()
         
         #Sets up the Clunk Screen
-        #Bite Row
         if charname == "Clunk":
+            
+            #setup default Clunk data
+            hp = 255
+            attack = 14
+            atkspeed = 60
+            startsolar = 0
+            solarpermin = 0
+            solarneeded = 0#remember to incorporate skill1 and skill2 costs
+            movespeed = 7.2
+            skill1dmg = 30
+            skill2dmg = 60
+            
             biteimg = QtGui.QPixmap("Images/Clunk/Bite-Clunk.png")
             clunkbite = QtGui.QLabel()
             clunkbite.setPixmap(biteimg)
@@ -94,7 +120,7 @@ class CharWindow(QtGui.QWidget):
             
             ex1btn = QtGui.QPushButton()
             ex1btn.setCheckable(True)
-            b1img = QtGui.QPixmap("Images/Clunk/Ex1-Clunk.png")
+            ex1img = QtGui.QPixmap("Images/Clunk/Ex1-Clunk.png")
             ex1btn.setIconSize(QtCore.QSize(100,100))
             ex1btn.setObjectName("ex1")
             ex1btn.setIcon(QtGui.QIcon(b1img))
@@ -103,7 +129,7 @@ class CharWindow(QtGui.QWidget):
             
             ex2btn = QtGui.QPushButton()
             ex2btn.setCheckable(True)
-            b2img = QtGui.QPixmap("Images/Clunk/Ex2-Clunk.png")
+            ex2img = QtGui.QPixmap("Images/Clunk/Ex2-Clunk.png")
             ex2btn.setIconSize(QtCore.QSize(100,100))
             ex2btn.setObjectName("ex2")
             ex2btn.setIcon(QtGui.QIcon(b2img))
@@ -112,7 +138,7 @@ class CharWindow(QtGui.QWidget):
             
             ex3btn = QtGui.QPushButton()
             ex3btn.setCheckable(True)
-            b3img = QtGui.QPixmap("Images/Clunk/Ex3-Clunk.png")
+            ex3img = QtGui.QPixmap("Images/Clunk/Ex3-Clunk.png")
             ex3btn.setIconSize(QtCore.QSize(100,100))
             ex3btn.setObjectName("ex1")
             ex3btn.setIcon(QtGui.QIcon(b3img))
@@ -121,7 +147,7 @@ class CharWindow(QtGui.QWidget):
             
             ex4btn = QtGui.QPushButton()
             ex4btn.setCheckable(True)
-            b4img = QtGui.QPixmap("Images/Clunk/Ex4-Clunk.png")
+            ex4img = QtGui.QPixmap("Images/Clunk/Ex4-Clunk.png")
             ex4btn.setIconSize(QtCore.QSize(100,100))
             ex4btn.setObjectName("ex4")
             ex4btn.setIcon(QtGui.QIcon(b4img))
@@ -130,7 +156,7 @@ class CharWindow(QtGui.QWidget):
             
             ex5btn = QtGui.QPushButton()
             ex5btn.setCheckable(True)
-            b5img = QtGui.QPixmap("Images/Clunk/Ex5-Clunk.png")
+            ex5img = QtGui.QPixmap("Images/Clunk/Ex5-Clunk.png")
             ex5btn.setIconSize(QtCore.QSize(100,100))
             ex5btn.setObjectName("ex5")
             ex5btn.setIcon(QtGui.QIcon(b5img))
@@ -139,16 +165,125 @@ class CharWindow(QtGui.QWidget):
             
             ex6btn = QtGui.QPushButton()
             ex6btn.setCheckable(True)
-            b6img = QtGui.QPixmap("Images/Clunk/Ex6-Clunk.png")
+            ex6img = QtGui.QPixmap("Images/Clunk/Ex6-Clunk.png")
             ex6btn.setIconSize(QtCore.QSize(100,100))
             ex6btn.setObjectName("ex6")
             ex6btn.setIcon(QtGui.QIcon(b6img))
             ex6btn.clicked[bool].connect(self.exclicked)
             skillGrid.addWidget(ex6btn,1,6)
             
+            melee1btn = QtGui.QPushButton()
+            melee1btn.setCheckable(True)
+            melee1img = QtGui.QPixmap("Images/Clunk/M1-Clunk.png")
+            melee1btn.setIconSize(QtCore.QSize(100,100))
+            melee1btn.setObjectName("melee1")
+            melee1btn.setIcon(QtGui.QIcon(b1img))
+            melee1btn.clicked[bool].connect(self.meleeclicked)
+            skillGrid.addWidget(melee1btn,2,1)
+            
+            melee2btn = QtGui.QPushButton()
+            melee2btn.setCheckable(True)
+            melee2img = QtGui.QPixmap("Images/Clunk/M2-Clunk.png")
+            melee2btn.setIconSize(QtCore.QSize(100,100))
+            melee2btn.setObjectName("melee2")
+            melee2btn.setIcon(QtGui.QIcon(b2img))
+            melee2btn.clicked[bool].connect(self.meleeclicked)
+            skillGrid.addWidget(melee2btn,2,2)
+            
+            melee3btn = QtGui.QPushButton()
+            melee3btn.setCheckable(True)
+            melee3img = QtGui.QPixmap("Images/Clunk/M3-Clunk.png")
+            melee3btn.setIconSize(QtCore.QSize(100,100))
+            melee3btn.setObjectName("melee1")
+            melee3btn.setIcon(QtGui.QIcon(b3img))
+            melee3btn.clicked[bool].connect(self.meleeclicked)
+            skillGrid.addWidget(melee3btn,2,3)
+            
+            melee4btn = QtGui.QPushButton()
+            melee4btn.setCheckable(True)
+            melee4img = QtGui.QPixmap("Images/Clunk/M4-Clunk.png")
+            melee4btn.setIconSize(QtCore.QSize(100,100))
+            melee4btn.setObjectName("melee4")
+            melee4btn.setIcon(QtGui.QIcon(b4img))
+            melee4btn.clicked[bool].connect(self.meleeclicked)
+            skillGrid.addWidget(melee4btn,2,4)
+            
+            melee5btn = QtGui.QPushButton()
+            melee5btn.setCheckable(True)
+            melee5img = QtGui.QPixmap("Images/Clunk/M5-Clunk.png")
+            melee5btn.setIconSize(QtCore.QSize(100,100))
+            melee5btn.setObjectName("melee5")
+            melee5btn.setIcon(QtGui.QIcon(b5img))
+            melee5btn.clicked[bool].connect(self.meleeclicked)
+            skillGrid.addWidget(melee5btn,2,5)
+            
+            melee6btn = QtGui.QPushButton()
+            melee6btn.setCheckable(True)
+            melee6img = QtGui.QPixmap("Images/Clunk/M6-Clunk.png")
+            melee6btn.setIconSize(QtCore.QSize(100,100))
+            melee6btn.setObjectName("melee6")
+            melee6btn.setIcon(QtGui.QIcon(b6img))
+            melee6btn.clicked[bool].connect(self.meleeclicked)
+            skillGrid.addWidget(melee6btn,2,6)
+            
+            #need to change image for this row
+            misc1btn = QtGui.QPushButton()
+            misc1btn.setCheckable(True)
+            misc1img = QtGui.QPixmap("Images/Clunk/M1-Clunk.png")
+            misc1btn.setIconSize(QtCore.QSize(100,100))
+            misc1btn.setObjectName("misc1")
+            misc1btn.setIcon(QtGui.QIcon(b1img))
+            misc1btn.clicked[bool].connect(self.miscclicked)
+            skillGrid.addWidget(misc1btn,3,1)
+            
+            misc2btn = QtGui.QPushButton()
+            misc2btn.setCheckable(True)
+            misc2img = QtGui.QPixmap("Images/Clunk/M2-Clunk.png")
+            misc2btn.setIconSize(QtCore.QSize(100,100))
+            misc2btn.setObjectName("misc2")
+            misc2btn.setIcon(QtGui.QIcon(b2img))
+            misc2btn.clicked[bool].connect(self.miscclicked)
+            skillGrid.addWidget(misc2btn,3,2)
+            
+            misc3btn = QtGui.QPushButton()
+            misc3btn.setCheckable(True)
+            misc3img = QtGui.QPixmap("Images/Clunk/M3-Clunk.png")
+            misc3btn.setIconSize(QtCore.QSize(100,100))
+            misc3btn.setObjectName("misc1")
+            misc3btn.setIcon(QtGui.QIcon(b3img))
+            misc3btn.clicked[bool].connect(self.miscclicked)
+            skillGrid.addWidget(misc3btn,3,3)
+            
+            misc4btn = QtGui.QPushButton()
+            misc4btn.setCheckable(True)
+            misc4img = QtGui.QPixmap("Images/Clunk/M4-Clunk.png")
+            misc4btn.setIconSize(QtCore.QSize(100,100))
+            misc4btn.setObjectName("misc4")
+            misc4btn.setIcon(QtGui.QIcon(b4img))
+            misc4btn.clicked[bool].connect(self.miscclicked)
+            skillGrid.addWidget(misc4btn,3,4)
+            
+            misc5btn = QtGui.QPushButton()
+            misc5btn.setCheckable(True)
+            misc5img = QtGui.QPixmap("Images/Clunk/M5-Clunk.png")
+            misc5btn.setIconSize(QtCore.QSize(100,100))
+            misc5btn.setObjectName("misc5")
+            misc5btn.setIcon(QtGui.QIcon(b5img))
+            misc5btn.clicked[bool].connect(self.miscclicked)
+            skillGrid.addWidget(misc5btn,3,5)
+            
+            misc6btn = QtGui.QPushButton()
+            misc6btn.setCheckable(True)
+            misc6img = QtGui.QPixmap("Images/Clunk/M6-Clunk.png")
+            misc6btn.setIconSize(QtCore.QSize(100,100))
+            misc6btn.setObjectName("misc6")
+            misc6btn.setIcon(QtGui.QIcon(b6img))
+            misc6btn.clicked[bool].connect(self.miscclicked)
+            skillGrid.addWidget(misc6btn,3,6)
             
             self.setLayout(overHBox)
             self.show()
+            
     def biteclicked(self, pressed):
         sender = self.sender()
         if pressed:
@@ -157,7 +292,28 @@ class CharWindow(QtGui.QWidget):
             on = 0
         if sender.objectName() == "bite1":
             sender.setFlat(on)
-            
+            if on == 1:
+                skill1dmg = skill1dmg + 12
+            else:
+                skill1dmg = skill1dmg - 12
+        if sender.objectName() == "bite2":
+            sender.setFlat(on)
+            if on == 1:
+                hp = hp + 12
+            else:
+                hp = hp - 12
+        if sender.objectName() == "bite3":
+            sender.setFlat(on)
+            skill1dmg = 42
+        if sender.objectName() == "bite4":
+            sender.setFlat(on)
+            skill1dmg = 42
+        if sender.objectName() == "bite5":
+            sender.setFlat(on)
+            skill1dmg = 42
+        if sender.objectName() == "bite6":
+            sender.setFlat(on)
+            skill1dmg = 42    
     def exclicked(self, pressed):
         sender = self.sender()
         if pressed:
@@ -166,8 +322,27 @@ class CharWindow(QtGui.QWidget):
             on = 0
         if sender.objectName() == "bite1":
             sender.setFlat(on)
+            
+    def meleeclicked(self, pressed):
+        sender = self.sender()
+        if pressed:
+            on = 1
+        else:
+            on = 0
+        if sender.objectName() == "bite1":
+            sender.setFlat(on)
+            
+    def miscclicked(self, pressed):
+        sender = self.sender()
+        if pressed:
+            on = 1
+        else:
+            on = 0
+        if sender.objectName() == "bite1":
+            sender.setFlat(on)
+            
 # the widget that sets up the character buttons in grid mode
-#
+#This is the character selection screen
 class CharButtons(QtGui.QWidget):
     def __init__(self):
         super(CharButtons, self).__init__()
@@ -280,6 +455,8 @@ class CharButtons(QtGui.QWidget):
     # signal was sent and will open the according character window
     def buttonClicked(self):
         sender = self.sender()
+        #If clunk is clicked it will do the setupchar method for Clunk
+        #Then it will switch the central widget to the Clunk Character Window
         if sender.objectName() == "clunkbtn":
             charwindow = CharWindow()
             charwindow.setupChar("Clunk")
