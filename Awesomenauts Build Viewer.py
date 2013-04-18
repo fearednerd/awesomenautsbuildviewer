@@ -22,7 +22,10 @@ class CharWindow(QtGui.QWidget):
     solarneeded = 0
     movespeed = 0
     skill1dmg = 0
+    skill1comments = []#will implement this later... version 2???
+    #slow,stun,immobile, silence, blind
     skill2dmg = 0
+    skill2comments = []
     
     def __init__(self):
         super(CharWindow, self).__init__()
@@ -291,12 +294,14 @@ class CharWindow(QtGui.QWidget):
         else:
             on = 0
         if sender.objectName() == "bite1":
+            #Quick'n Cleaner
             sender.setFlat(on)
             if on == 1:
                 skill1dmg = skill1dmg + 12
             else:
                 skill1dmg = skill1dmg - 12
         if sender.objectName() == "bite2":
+            #Medical Pump
             sender.setFlat(on)
             if on == 1:
                 hp = hp + 12
@@ -304,25 +309,54 @@ class CharWindow(QtGui.QWidget):
                 hp = hp - 12
         if sender.objectName() == "bite3":
             sender.setFlat(on)
-            skill1dmg = 42
+            #Multi Hose
+            #+1 to bite targets
         if sender.objectName() == "bite4":
             sender.setFlat(on)
-            skill1dmg = 42
+            #Screamer Engine
+            #1.4s Immobilization
         if sender.objectName() == "bite5":
             sender.setFlat(on)
-            skill1dmg = 42
+            #Power Converter
+            #+25 Heal
         if sender.objectName() == "bite6":
             sender.setFlat(on)
-            skill1dmg = 42    
+            #The Suckinator 9000
+            if on == 1:
+                skill1dmg = skill1dmg + 12
+            else:
+                skill1dmg = skill1dmg - 12    
     def exclicked(self, pressed):
         sender = self.sender()
         if pressed:
             on = 1
         else:
             on = 0
-        if sender.objectName() == "bite1":
+        if sender.objectName() == "ex1":
+            #Thermonuclear Cleaner
+            sender.setFlat(on)
+            if on == 1:
+                skill2dmg = skill2dmg + 40
+            else:
+                skill2dmg = skill2dmg - 40
+        if sender.objectName() == "ex2":
+            #Titanium Hardhat
+            sender.setFlat(on)
+        if sender.objectName() == "ex3":
+            #Grease Lightning Snail
+            sender.setFlat(on)
+            # slow
+        if sender.objectName() == "ex4":
+            #Blueprints Container
             sender.setFlat(on)
             
+        if sender.objectName() == "ex5":
+            #Reactor Cooler
+            sender.setFlat(on)
+            
+        if sender.objectName() == "ex6":
+            #Universal Charger
+            sender.setFlat(on)
     def meleeclicked(self, pressed):
         sender = self.sender()
         if pressed:
@@ -334,12 +368,6 @@ class CharWindow(QtGui.QWidget):
             
     def miscclicked(self, pressed):
         sender = self.sender()
-        if pressed:
-            on = 1
-        else:
-            on = 0
-        if sender.objectName() == "bite1":
-            sender.setFlat(on)
             
 # the widget that sets up the character buttons in grid mode
 #This is the character selection screen
