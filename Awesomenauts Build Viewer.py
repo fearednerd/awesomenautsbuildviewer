@@ -361,7 +361,9 @@ class CharWindow(QtGui.QWidget):
             
             self.setLayout(overHBox)
             self.show()
-            
+    #Bite clicked listener
+    #It will read which bite button was pressed
+    #Then will change the stats accordingly
     def biteclicked(self, pressed):
         sender = self.sender()
         if pressed:
@@ -370,6 +372,7 @@ class CharWindow(QtGui.QWidget):
             on = 0
         if sender.objectName() == "bite1":
             #Quick'n Cleaner
+            #If toggled on it will change the dmg variable then set text to the variable
             sender.setFlat(on)
             if on == 1:
                 self.skill1dmg = self.skill1dmg + 12
@@ -391,6 +394,8 @@ class CharWindow(QtGui.QWidget):
             sender.setFlat(on)
             #Multi Hose
             #+1 to bite targets
+            #If toggled on it will append the bonus stat to the list
+            #then it will clear the skill comment text and reprint the list to the edit box
             if on == 1:
                 self.skill1comments.append("+1 Bite Targets")
                 self.skill1cmtEdit.setText("")
@@ -472,15 +477,82 @@ class CharWindow(QtGui.QWidget):
             sender.setFlat(on)
             if on == 1:
                 skill2dmg = skill2dmg + 40
+                self.skill2dmgEdit.setText(str(self.skill2dmg))
+                self.skill2cmtEdit.setText("")
+                #Tricky, detects if -40 damage to self is applied by
+                #Titanium Hardhat 
+                if "-40 damage to self" in self.skill2comments:
+                    self.skill2comments.append("-20 damage to self")
+                else:
+                    self.skill2comments.append("+20 damage to self")
+                self.printstr = ""
+                for x in self.skill2comments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
             else:
                 skill2dmg = skill2dmg - 40
+                self.skill2dmgEdit.setText(str(self.skill2dmg))
+                if "-40 damage to self" in self.skill2comments:
+                    self.skill2comments.remove("-20 damage to self")
+                else:
+                    self.skill2comments.remove("+20 damage to self")
+                if len(self.skill2comments)==0:
+                    self.skill2cmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.skill2comments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
         if sender.objectName() == "ex2":
             #Titanium Hardhat
             sender.setFlat(on)
+            if on == 1:
+                self.skill2cmtEdit.setText("")
+                #Tricky, detects if +20 damage to self is applied by
+                #Thermonuclear Cleaner 
+                if "+20 damage to self" in self.skill2comments:
+                    self.skill2comments.append("-20 damage to self")
+                else:
+                    self.skill2comments.append("-40 damage to self")
+                self.printstr = ""
+                for x in self.skill2comments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
+            else:
+                if "+20 damage to self" in self.skill2comments:
+                    self.skill2comments.remove("-20 damage to self")
+                else:
+                    self.skill2comments.remove("-40 damage to self")
+                if len(self.skill2comments)==0:
+                    self.skill2cmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.skill2comments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
         if sender.objectName() == "ex3":
             #Grease Lightning Snail
             sender.setFlat(on)
             # slow
+            if on == 1:
+                self.skill2cmtEdit.setText("")
+                self.skill2comments.append("+40% Slow")
+                self.printstr = ""
+                for x in self.skill2comments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
+            else:
+                self.skill2comments.remove("+40% Slow")
+                if len(self.skill2comments)==0:
+                    self.skill2cmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.skill2comments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
         if sender.objectName() == "ex4":
             #Blueprints Container
             sender.setFlat(on)
