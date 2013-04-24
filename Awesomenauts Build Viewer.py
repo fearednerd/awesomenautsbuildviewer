@@ -35,12 +35,13 @@ class CharWindow(QtGui.QWidget):
             self.atkspeed = 60
             self.startsolar = 0
             self.solarpermin = 0
-            self.solarneeded = 0#remember to incorporate skill1 and skill2 costs
+            self.solarneeded = 0 #remember to incorporate skill1 and skill2 costs
             self.movespeed = 7.2
             self.skill1dmg = 30
             self.skill2dmg = 60
             self.skill1comments = []
             self.skill2comments = []
+            self.meleecomments = []
             self.printstr = ""
             
             biteimg = QtGui.QPixmap("Images/Clunk/Bite-Clunk.png")
@@ -282,7 +283,7 @@ class CharWindow(QtGui.QWidget):
             misc6btn.clicked[bool].connect(self.miscclicked)
             skillGrid.addWidget(misc6btn,3,6)
             
-            #dataGrid
+            #dataGrid - grid that shows the stats on lineEdits or textEdits
             overHBox.addLayout(dataGrid)
             hpLabel = QtGui.QLabel('HP')
             atkLabel = QtGui.QLabel('Attack')
@@ -294,6 +295,7 @@ class CharWindow(QtGui.QWidget):
             skill1cmtLabel = QtGui.QLabel('Skill 1 Info')
             skill2dmgLabel = QtGui.QLabel('Skill 2 Damage')
             skill2cmtLabel = QtGui.QLabel('Skill 2 Info')
+            meleecmtLabel = QtGui.QLabel('Basic Attack Info')
             
             self.hpEdit = QtGui.QLineEdit()
             self.atkEdit = QtGui.QLineEdit()
@@ -305,6 +307,7 @@ class CharWindow(QtGui.QWidget):
             self.skill1cmtEdit = QtGui.QTextEdit()
             self.skill2dmgEdit = QtGui.QLineEdit()
             self.skill2cmtEdit = QtGui.QTextEdit()
+            self.meleecmtEdit = QtGui.QTextEdit()
             
             self.hpEdit.setReadOnly(True)
             self.atkEdit.setReadOnly(True)
@@ -482,9 +485,9 @@ class CharWindow(QtGui.QWidget):
                 #Tricky, detects if -40 damage to self is applied by
                 #Titanium Hardhat 
                 if "-40 damage to self" in self.skill2comments:
-                    self.skill2comments.append("-20 damage to self")
+                    self.skill2comments.append("-20 Damage to self")
                 else:
-                    self.skill2comments.append("+20 damage to self")
+                    self.skill2comments.append("+20 Damage to self")
                 self.printstr = ""
                 for x in self.skill2comments:
                     if x != "":
@@ -494,9 +497,9 @@ class CharWindow(QtGui.QWidget):
                 skill2dmg = skill2dmg - 40
                 self.skill2dmgEdit.setText(str(self.skill2dmg))
                 if "-40 damage to self" in self.skill2comments:
-                    self.skill2comments.remove("-20 damage to self")
+                    self.skill2comments.remove("-20 Damage to self")
                 else:
-                    self.skill2comments.remove("+20 damage to self")
+                    self.skill2comments.remove("+20 Damage to self")
                 if len(self.skill2comments)==0:
                     self.skill2cmtEdit.setText("")
                 else:
@@ -512,9 +515,9 @@ class CharWindow(QtGui.QWidget):
                 #Tricky, detects if +20 damage to self is applied by
                 #Thermonuclear Cleaner 
                 if "+20 damage to self" in self.skill2comments:
-                    self.skill2comments.append("-20 damage to self")
+                    self.skill2comments.append("-20 Damage to self")
                 else:
-                    self.skill2comments.append("-40 damage to self")
+                    self.skill2comments.append("-40 Damage to self")
                 self.printstr = ""
                 for x in self.skill2comments:
                     if x != "":
@@ -522,9 +525,9 @@ class CharWindow(QtGui.QWidget):
                     self.skill2cmtEdit.setText(self.printstr)
             else:
                 if "+20 damage to self" in self.skill2comments:
-                    self.skill2comments.remove("-20 damage to self")
+                    self.skill2comments.remove("-20 Damage to self")
                 else:
-                    self.skill2comments.remove("-40 damage to self")
+                    self.skill2comments.remove("-40 Damage to self")
                 if len(self.skill2comments)==0:
                     self.skill2cmtEdit.setText("")
                 else:
@@ -556,21 +559,70 @@ class CharWindow(QtGui.QWidget):
         if sender.objectName() == "ex4":
             #Blueprints Container
             sender.setFlat(on)
-            
+            if on == 1:
+                self.skill2cmtEdit.setText("")
+                self.skill2comments.append("100 Damage to Enemies below 50% HP")
+                self.printstr = ""
+                for x in self.skill2comments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
+            else:
+                self.skill2comments.remove("100 Damage to Enemies below 50% HP")
+                if len(self.skill2comments)==0:
+                    self.skill2cmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.skill2comments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
         if sender.objectName() == "ex5":
             #Reactor Cooler
             sender.setFlat(on)
-            
+            if on == 1:
+                self.skill2cmtEdit.setText("")
+                self.skill2comments.append("-5s Cooldown")
+                self.printstr = ""
+                for x in self.skill2comments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
+            else:
+                self.skill2comments.remove("-5s Cooldown")
+                if len(self.skill2comments)==0:
+                    self.skill2cmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.skill2comments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
         if sender.objectName() == "ex6":
             #Universal Charger
             sender.setFlat(on)
+            if on == 1:
+                self.skill2cmtEdit.setText("")
+                self.skill2comments.append("=0.7s Charge time")
+                self.printstr = ""
+                for x in self.skill2comments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
+            else:
+                self.skill2comments.remove("=0.7s Charge time")
+                if len(self.skill2comments)==0:
+                    self.skill2cmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.skill2comments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.skill2cmtEdit.setText(self.printstr)
     def meleeclicked(self, pressed):
         sender = self.sender()
         if pressed:
             on = 1
         else:
             on = 0
-        if sender.objectName() == "bite1":
+        if sender.objectName() == "melee1":
             sender.setFlat(on)
             
     def miscclicked(self, pressed):
