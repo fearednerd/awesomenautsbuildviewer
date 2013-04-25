@@ -285,6 +285,7 @@ class CharWindow(QtGui.QWidget):
             
             #dataGrid - grid that shows the stats on lineEdits or textEdits
             overHBox.addLayout(dataGrid)
+            #creating labels
             hpLabel = QtGui.QLabel('HP')
             atkLabel = QtGui.QLabel('Attack')
             atkspeedLabel = QtGui.QLabel('Attack Speed')
@@ -296,7 +297,8 @@ class CharWindow(QtGui.QWidget):
             skill2dmgLabel = QtGui.QLabel('Skill 2 Damage')
             skill2cmtLabel = QtGui.QLabel('Skill 2 Info')
             meleecmtLabel = QtGui.QLabel('Basic Attack Info')
-            
+
+            #creating lineEdit and textEdits
             self.hpEdit = QtGui.QLineEdit()
             self.atkEdit = QtGui.QLineEdit()
             self.atkspeedEdit = QtGui.QLineEdit()
@@ -308,7 +310,8 @@ class CharWindow(QtGui.QWidget):
             self.skill2dmgEdit = QtGui.QLineEdit()
             self.skill2cmtEdit = QtGui.QTextEdit()
             self.meleecmtEdit = QtGui.QTextEdit()
-            
+
+            #setting up read only
             self.hpEdit.setReadOnly(True)
             self.atkEdit.setReadOnly(True)
             self.atkspeedEdit.setReadOnly(True)
@@ -319,7 +322,8 @@ class CharWindow(QtGui.QWidget):
             self.skill1cmtEdit.setReadOnly(True) 
             self.skill2dmgEdit.setReadOnly(True) 
             self.skill2cmtEdit.setReadOnly(True)
-            
+
+            #setting up default values for stats
             self.hpEdit.setText(str(self.hp))
             self.atkEdit.setText(str(self.attack))
             self.atkspeedEdit.setText(str(self.atkspeed))
@@ -360,6 +364,9 @@ class CharWindow(QtGui.QWidget):
             
             dataGrid.addWidget(skill2cmtLabel,9,0)
             dataGrid.addWidget(self.skill2cmtEdit,9,1)
+
+            dataGrid.addWidget(meleecmtLabel,10,0)
+            dataGrid.addWidget(self.meleecmtEdit,10,1)
             
             
             self.setLayout(overHBox)
@@ -601,14 +608,14 @@ class CharWindow(QtGui.QWidget):
             sender.setFlat(on)
             if on == 1:
                 self.skill2cmtEdit.setText("")
-                self.skill2comments.append("=0.7s Charge time")
+                self.skill2comments.append("+0.7s Charge time")
                 self.printstr = ""
                 for x in self.skill2comments:
                     if x != "":
                         self.printstr = self.printstr + x + "\n"
                     self.skill2cmtEdit.setText(self.printstr)
             else:
-                self.skill2comments.remove("=0.7s Charge time")
+                self.skill2comments.remove("+0.7s Charge time")
                 if len(self.skill2comments)==0:
                     self.skill2cmtEdit.setText("")
                 else:
@@ -624,7 +631,33 @@ class CharWindow(QtGui.QWidget):
             on = 0
         if sender.objectName() == "melee1":
             sender.setFlat(on)
-            
+            if on == 1:
+                self.meleecmtEdit.setText("")
+                self.meleecomments.append("+3.2 Explosive Size")
+                self.printstr = ""
+                for x in self.meleecomments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+            else:
+                self.meleecomments.remove("=0.7s Charge time")
+                if len(self.meleecomments)==0:
+                    self.meleecmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.meleecomments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+        if sender.objectName() == "melee2":
+            sender.setFlat(on)
+        if sender.objectName() == "melee3":
+            sender.setFlat(on)
+        if sender.objectName() == "melee4":
+            sender.setFlat(on)
+        if sender.objectName() == "melee5":
+            sender.setFlat(on)
+        if sender.objectName() == "melee6":
+            sender.setFlat(on)
     def miscclicked(self, pressed):
         sender = self.sender()
             
