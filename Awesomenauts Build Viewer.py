@@ -486,12 +486,13 @@ class CharWindow(QtGui.QWidget):
             #Thermonuclear Cleaner
             sender.setFlat(on)
             if on == 1:
-                skill2dmg = skill2dmg + 40
+                self.skill2dmg = self.skill2dmg + 40
                 self.skill2dmgEdit.setText(str(self.skill2dmg))
                 self.skill2cmtEdit.setText("")
                 #Tricky, detects if -40 damage to self is applied by
                 #Titanium Hardhat 
-                if "-40 damage to self" in self.skill2comments:
+                if "-40 Damage to self" in self.skill2comments:
+                    self.skill2comments.remove("-40 Damage to self")
                     self.skill2comments.append("-20 Damage to self")
                 else:
                     self.skill2comments.append("+20 Damage to self")
@@ -501,10 +502,15 @@ class CharWindow(QtGui.QWidget):
                         self.printstr = self.printstr + x + "\n"
                     self.skill2cmtEdit.setText(self.printstr)
             else:
-                skill2dmg = skill2dmg - 40
+                self.skill2dmg = self.skill2dmg - 40
                 self.skill2dmgEdit.setText(str(self.skill2dmg))
-                if "-40 damage to self" in self.skill2comments:
+                if "-20 Damage to self" in self.skill2comments:
                     self.skill2comments.remove("-20 Damage to self")
+                    self.skill2comments.append("-40 Damage to self")
+                    for x in self.skill2comments:
+                        if x != "":
+                            self.printstr = self.printstr + x + "\n"
+                        self.skill2cmtEdit.setText(self.printstr)
                 else:
                     self.skill2comments.remove("+20 Damage to self")
                 if len(self.skill2comments)==0:
@@ -521,7 +527,8 @@ class CharWindow(QtGui.QWidget):
                 self.skill2cmtEdit.setText("")
                 #Tricky, detects if +20 damage to self is applied by
                 #Thermonuclear Cleaner 
-                if "+20 damage to self" in self.skill2comments:
+                if "+20 Damage to self" in self.skill2comments:
+                    self.skill2comments.remove("+20 Damage to self")
                     self.skill2comments.append("-20 Damage to self")
                 else:
                     self.skill2comments.append("-40 Damage to self")
@@ -531,8 +538,13 @@ class CharWindow(QtGui.QWidget):
                         self.printstr = self.printstr + x + "\n"
                     self.skill2cmtEdit.setText(self.printstr)
             else:
-                if "+20 damage to self" in self.skill2comments:
+                if "-20 Damage to self" in self.skill2comments:
                     self.skill2comments.remove("-20 Damage to self")
+                    self.skill2comments.append("+20 Damage to self")
+                    for x in self.skill2comments:
+                        if x != "":
+                            self.printstr = self.printstr + x + "\n"
+                        self.skill2cmtEdit.setText(self.printstr)
                 else:
                     self.skill2comments.remove("-40 Damage to self")
                 if len(self.skill2comments)==0:
@@ -640,7 +652,7 @@ class CharWindow(QtGui.QWidget):
                         self.printstr = self.printstr + x + "\n"
                     self.meleecmtEdit.setText(self.printstr)
             else:
-                self.meleecomments.remove("=0.7s Charge time")
+                self.meleecomments.remove("+3.2 Explosive Size")
                 if len(self.meleecomments)==0:
                     self.meleecmtEdit.setText("")
                 else:
@@ -650,14 +662,103 @@ class CharWindow(QtGui.QWidget):
                     self.meleecmtEdit.setText(self.printstr)
         if sender.objectName() == "melee2":
             sender.setFlat(on)
+            if on == 1:
+                self.atkspeed = self.atkspeed + (self.atkspeed * 0.25)
+                self.atkspeedEdit.setText(str(self.atkspeed))
+                self.meleecmtEdit.setText("")
+                self.meleecomments.append("+4 Missile Speed")
+                self.printstr = ""
+                for x in self.meleecomments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+            else:
+                self.atkspeed = self.atkspeed - (self.atkspeed * 0.20)
+                self.atkspeedEdit.setText(str(self.atkspeed))
+                self.meleecomments.remove("+4 Missile Speed")
+                if len(self.meleecomments)==0:
+                    self.meleecmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.meleecomments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
         if sender.objectName() == "melee3":
             sender.setFlat(on)
+            if on == 1:
+                self.meleecmtEdit.setText("")
+                self.meleecomments.append("+1 Missile 2 \n+1 Missile 3")
+                self.printstr = ""
+                for x in self.meleecomments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+            else:
+                self.meleecomments.remove("+1 Missile 2 \n+1 Missile 3")
+                if len(self.meleecomments)==0:
+                    self.meleecmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.meleecomments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
         if sender.objectName() == "melee4":
             sender.setFlat(on)
+            if on == 1:
+                self.meleecmtEdit.setText("")
+                self.meleecomments.append("+1 Missile 4")
+                self.printstr = ""
+                for x in self.meleecomments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+            else:
+                self.meleecomments.remove("+1 Missile 4")
+                if len(self.meleecomments)==0:
+                    self.meleecmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.meleecomments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
         if sender.objectName() == "melee5":
             sender.setFlat(on)
+            if on == 1:
+                self.meleecmtEdit.setText("")
+                self.meleecomments.append("+380 Homing")
+                self.printstr = ""
+                for x in self.meleecomments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+            else:
+                self.meleecomments.remove("+380 Homing")
+                if len(self.meleecomments)==0:
+                    self.meleecmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.meleecomments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
         if sender.objectName() == "melee6":
             sender.setFlat(on)
+            if on == 1:
+                self.meleecmtEdit.setText("")
+                self.meleecomments.append("+1 to Missile 2,3,4")
+                self.printstr = ""
+                for x in self.meleecomments:
+                    if x != "":
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
+            else:
+                self.meleecomments.remove("+1 to Missile 2,3,4")
+                if len(self.meleecomments)==0:
+                    self.meleecmtEdit.setText("")
+                else:
+                    self.printstr = ""
+                    for x in self.meleecomments:
+                        self.printstr = self.printstr + x + "\n"
+                    self.meleecmtEdit.setText(self.printstr)
     def miscclicked(self, pressed):
         sender = self.sender()
             
